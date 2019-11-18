@@ -1,5 +1,10 @@
 import React from "react";
-import { logout, refreshToken, toggleIsClickedAction } from "../store/actions";
+import {
+  logout,
+  refreshToken,
+  toggleIsClickedAction,
+  sessionTimedOut
+} from "../store/actions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { State as AppState } from "../store/types";
@@ -15,7 +20,9 @@ const Home: React.FC<Props> = ({
   logout,
   sessionExpiration,
   isClicked,
-  toggleIsClickedAction
+  toggleIsClickedAction,
+  refreshToken,
+  sessionTimedOut
 }) => {
   return (
     <React.Fragment>
@@ -28,6 +35,7 @@ const Home: React.FC<Props> = ({
         sessionExpiration={sessionExpiration}
         logout={logout}
         refreshToken={refreshToken}
+        sessionTimedOut={sessionTimedOut}
       />
     </React.Fragment>
   );
@@ -51,7 +59,8 @@ const mapDispatchToProps = (dispatch: any) =>
     {
       logout,
       refreshToken,
-      toggleIsClickedAction
+      toggleIsClickedAction,
+      sessionTimedOut
     },
     dispatch
   );

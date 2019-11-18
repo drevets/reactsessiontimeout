@@ -16,7 +16,7 @@ export const logoutRequest = (): UserActionTypes => ({
   
   export const loginSuccess = (): UserActionTypes => ({
     type: ActionTypes.LOGIN_SUCCESS,
-    status: NetworkCallStatus.SUCCESS
+    status: NetworkCallStatus.SUCCESS,
   });
   
   export const loginFail = (error: string): UserActionTypes => ({
@@ -50,6 +50,10 @@ export const logoutRequest = (): UserActionTypes => ({
   export const toggleIsClickedAction = (): UserActionTypes => ({
       type: ActionTypes.TOGGLE_IS_CLICKED
   })
+
+  export const sessionTimedOut = (): UserActionTypes => ({
+    type: ActionTypes.SESSION_TIMED_OUT
+})
   
   export const login = (): ThunkAction<
     Promise<void>,

@@ -1,6 +1,6 @@
 import React from "react";
 import { RouteChildrenProps, Redirect } from "react-router";
-import { State as AppState } from  "../store/types";
+import { State as AppState } from "../store/types";
 import { bindActionCreators } from "redux";
 import { login, loginSuccess } from "../store/actions";
 import { connect } from "react-redux";
@@ -14,8 +14,7 @@ interface OwnProps {
 
 type Props = DispatchProps & OwnProps & StateProps;
 
-// I might not need error or isFetching
-const Login: React.FC<Props> = ({ login, error, isFetching, location }) => {
+const Login: React.FC<Props> = ({ login, location, sessionTimedOut }) => {
   const [redirect, setRedirect] = React.useState(false);
   const [loginFailed, setLoginFailed] = React.useState(false);
 
@@ -31,12 +30,13 @@ const Login: React.FC<Props> = ({ login, error, isFetching, location }) => {
   };
 
   const { from } = location.state || { from: { pathname: "/" } };
-  if (redirect) {
+  if (redirect || Cookies.get("session")) {
     return <Redirect to={from} />;
   }
 
   return (
     <React.Fragment>
+      {sessionTimedOut && "Your session timed out!"}
       <form>
         <button onClick={loginUser} type="button">
           Sign in
@@ -48,11 +48,9 @@ const Login: React.FC<Props> = ({ login, error, isFetching, location }) => {
 };
 
 const mapStateToProps = ({
-  error,
-  isFetching
+  sessionTimedOut
 }: AppState): { [index: string]: any } => ({
-  error,
-  isFetching
+  sessionTimedOut
 });
 
 // typing with Redux ;)

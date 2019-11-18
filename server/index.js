@@ -8,16 +8,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
 app.post("/login", (req, res) => {
-  if (Math.floor(Math.random() * Math.floor(9)) <= 5) {
-    console.log("login success!");
-    const token = jwt.sign({ data: "success!" }, "secret", {
-      expiresIn: 60 * 30
-    });
-    res.send({ token });
-  } else {
-    res.sendStatus(403);
-    console.log("login fails!!");
-  }
+  const token = jwt.sign({ data: "success!" }, "secret", {
+    expiresIn: 60 * 30
+  });
+  res.send({ token });
 });
 
 app.post("/refresh", (req, res) => {

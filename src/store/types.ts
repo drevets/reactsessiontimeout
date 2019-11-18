@@ -7,7 +7,8 @@ export enum ActionTypes {
   REFRESH_SUCCESS = "REFRESH_SUCCESS",
   REFRESH_FAIL = "REFRESH_FAIL",
   UPDATE_SESSION_EXPIRATION = "UPDATE_SESSION_EXPIRATION",
-  TOGGLE_IS_CLICKED = "TOGGLE_IS_CLICKED"
+  TOGGLE_IS_CLICKED = "TOGGLE_IS_CLICKED",
+  SESSION_TIMED_OUT = "SESSION_TIMED_OUT"
 }
 
 export enum NetworkCallStatus {
@@ -54,6 +55,10 @@ export interface UpdateSessionExpirationTime {
   sessionExpiration: number;
 }
 
+export interface SessionTimedOut {
+    type: ActionTypes.SESSION_TIMED_OUT
+}
+
 export interface ToggleIsClicked {
   type: ActionTypes.TOGGLE_IS_CLICKED;
 }
@@ -64,6 +69,8 @@ export interface State {
   isFetching: boolean;
   sessionExpiration: number;
   isClicked: boolean;
+  sessionTimedOut: boolean;
+  user: boolean;
 }
 
 export type UserActionTypes =
@@ -75,4 +82,5 @@ export type UserActionTypes =
   | RefreshSuccessAction
   | RefreshFailAction
   | UpdateSessionExpirationTime
-  | ToggleIsClicked;
+  | ToggleIsClicked 
+  | SessionTimedOut
