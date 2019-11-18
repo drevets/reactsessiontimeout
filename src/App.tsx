@@ -5,7 +5,7 @@ import Login from "./views/Login"
 import Cookies from "js-cookie";
 import { Route, Redirect, Switch } from "react-router-dom";
 
-const sessionCookieName = "SESSION";
+const sessionCookieName = "session";
 
 interface IPrivateRoute {
   exact?: boolean;
