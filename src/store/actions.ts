@@ -46,6 +46,10 @@ export const logoutRequest = (): UserActionTypes => ({
     type: ActionTypes.UPDATE_SESSION_EXPIRATION,
     sessionExpiration
   });
+
+  export const toggleIsClickedAction = (): UserActionTypes => ({
+      type: ActionTypes.TOGGLE_IS_CLICKED
+  })
   
   export const login = (): ThunkAction<
     Promise<void>,

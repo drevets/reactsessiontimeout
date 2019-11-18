@@ -1,13 +1,20 @@
 import { createStore, Action, Reducer, applyMiddleware } from "redux";
 import thunk, { ThunkMiddleware } from "redux-thunk";
+import logger from "redux-logger";
 import axios from "axios";
-import { State, ActionTypes, NetworkCallStatus, UserActionTypes } from "./types";
+import {
+  State,
+  ActionTypes,
+  NetworkCallStatus,
+  UserActionTypes
+} from "./types";
 
 export const initialState: State = {
   error: "",
   status: NetworkCallStatus.UNDEFINED,
   isFetching: false,
-  sessionExpiration: 1800000
+  sessionExpiration: 1800000,
+  isClicked: false,
 };
 
 type InitialState = State | undefined;
@@ -15,10 +22,11 @@ type InitialState = State | undefined;
 const axiosInstance = axios.create();
 
 let middleware = [
-  thunk.withExtraArgument(axiosInstance) as ThunkMiddleware<State, Action<any>>
+  thunk.withExtraArgument(axiosInstance) as ThunkMiddleware<State, Action<any>>,
+  logger
 ];
 
-// also need to implement logout 
+// also need to implement logout
 const rootReducer: Reducer<InitialState, UserActionTypes> = (
   state = initialState,
   action: UserActionTypes
@@ -48,6 +56,11 @@ const rootReducer: Reducer<InitialState, UserActionTypes> = (
         ...state,
         sessionExpiration: action.sessionExpiration
       };
+      case ActionTypes.TOGGLE_IS_CLICKED: 
+      return {
+        ...state, 
+        isClicked: !state.isClicked
+      }
     default:
       return { ...state };
   }
