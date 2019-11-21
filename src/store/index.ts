@@ -30,7 +30,6 @@ let middleware = [
   logger
 ];
 
-// also need to implement logout
 const rootReducer: Reducer<InitialState, UserActionTypes> = (
   state = initialState,
   action: UserActionTypes
@@ -92,7 +91,7 @@ const debouncedRefreshToken = debounce(
   () => {
     if (store.getState().user) {
       //@ts-ignore TODO figure out why this isn't working
-      store.dispatch(refreshToken());
+      store.dispatch(refreshToken()); // also ... is this working like I want it to? that, I do not know 
     }
   },
   10000,

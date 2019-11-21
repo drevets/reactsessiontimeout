@@ -9,6 +9,7 @@ const warningPeriod = 5000;
 
 // All of these names suck and are confusing
 // OK, so .... why was the session expiring three times?? Is it doing that in my main application?? that would suck
+// Also, need to figure out some kind of testing something for this
 
 interface ISessionTimeoutProps {
   logout: () => ThunkAction<void, AppState, null, UserActionTypes>;
@@ -41,21 +42,6 @@ const SessionTimeout: React.FunctionComponent<ISessionTimeoutProps> = ({
   //   const sessionEndWarning = sessionExpiration - warningPeriod;
   const sessionEndWarning = 2000;
 
-  //starts a timeout as soon as the page loads
-
-  React.useEffect(() => {
-    const warningPeriodId = window.setTimeout(() => {
-      if (!sessionOver) {
-        setSessionOver(true);
-        warnUserSessionAboutToTimeout();
-      }
-    }, sessionEndWarning);
-    return (): void => {
-      // timeout will be reset with each render, so we don't set multiple timeouts ... except for we were doing that. 
-      window.clearTimeout(warningPeriodId);
-    };
-  });
-
   const warnUserSessionAboutToTimeout = (): void => {
     setSessionAboutToTimeoutMessage("Your session is going to time out soon!");
     const endOfWarningPeriod = window.setTimeout(() => {
@@ -64,6 +50,23 @@ const SessionTimeout: React.FunctionComponent<ISessionTimeoutProps> = ({
     }, warningPeriod);
     setEndOfWarningPeriodTimeoutId(endOfWarningPeriod);
   };
+
+  //starts a timeout as soon as the page loads
+
+  React.useEffect(() => {
+    const warningPeriodId = window.setTimeout(() => {
+      //   if (!sessionOver) { // had to do this because it was somehow setting three of these ... possibly due to the state-setting things I'm doing below
+      //     setSessionOver(true);
+      //     warnUserSessionAboutToTimeout();
+      //   }
+      console.log("going to warn the user!")
+      warnUserSessionAboutToTimeout();
+    }, sessionEndWarning);
+    return (): void => {
+      // timeout will be reset with each render, so we don't set multiple timeouts ... except for we were doing that.
+      window.clearTimeout(warningPeriodId);
+    };
+  }, []); // So I get an error for doing this, but it also works ..... 
 
   // this language could be more clear here
   const logMeOut = (): void => {
